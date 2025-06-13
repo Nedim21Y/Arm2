@@ -11,22 +11,20 @@ public class MoveArmCommand extends CommandBase {
 }
     
 public MoveArmCommand(Arm arm, Joystick joystick) {
-
-    this.arm = arm;
+     this.arm = arm;
     this.joysitck = joysitck;
     addRequirements(arm); 
 }
 public void execute() {
-   
     double speed = joystick.getY(); 
     arm.moveMainLifter(speed);
-
+}
+    @Override
+public boolean isFinished() {
+    return arm.armPID.atSetpoint();
+ }
+    @Override
 public void end(boolean interrupted) {
     arm.stopAll();
- }
-
-    @Override
-    public boolean isFinished() {
-    return false;
- }
+    }
 }
